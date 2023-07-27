@@ -1,2 +1,5 @@
 streamlit
 python-dotenv
+eventregistry
+wordcloud
+matplotlib
