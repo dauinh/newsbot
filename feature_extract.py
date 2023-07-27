@@ -1,5 +1,6 @@
-from langchain.llms import OpenAI
+from langchain.chat_models import ChatOpenAI
 from langchain import PromptTemplate, LLMChain
+from langchain.output_parsers import PydanticOutputParser
 
 from dotenv import load_dotenv
 import json
@@ -23,20 +24,33 @@ CATEGORIES = "Politics, Business, Technology, Entertainment, Sports, Health, Sci
 
 prompt = PromptTemplate(template=template, input_variables=["article", "categories"])
 
-model = OpenAI(
-    model_name="text-davinci-002", 
+model = ChatOpenAI(
+    model_name="gpt-3.5-turbo-16k-0613", 
     temperature=0,
     # max_tokens=100,
     streaming=True,
 )
 
 llm_chain = LLMChain(llm=model, prompt=prompt)
+output_parser = PydanticOutputParser(pydantic_object=dict)
 
-file_path = "data.json"
+raw_data = "data.json"
+processed_data = "processed.json"
 
-with open(file_path, "r") as file:
-    data = json.load(file)
-content = data[3]['body']
+# Load dataset
+with open(raw_data, "r") as file:
+    input = json.load(file)
+with open(processed_data, "r") as file:
+    output = json.load(file)
 
-generated = llm_chain.run(article=content, categories=CATEGORIES)
-print(generated)
+# Run LLM
+for i, article in enumerate(input):
+    if i > 25: break
+    content = article['body']
+    res = llm_chain.run(article=content, categories=CATEGORIES)
+    parsed_output = json.loads(res)
+    output.append(parsed_output)
+
+# Write to JSON file
+with open(processed_data, "w") as file:
+    json.dump(output, file, indent=4)
