@@ -1,15 +1,11 @@
 import streamlit as st
-import json
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
+from utils import *
+
 
 text = 'Fun, fun, awesome, awesome, tubular, astounding, superb, great, amazing, amazing, amazing, amazing'
-def load_data():
-    processed_data = "processed.json"
-    with open(processed_data, "r") as file:
-        output = json.load(file)
-    return output
 
 def wordcloud(text):
     # Create and generate a word cloud image
@@ -20,13 +16,14 @@ def wordcloud(text):
     return fig
 
 
-data = load_data()
+articles = load_data("process.json")
 text = []
-for article in data:
+for article in articles:
     text.append(article['category'])
 res = ','.join(text)
 fig = wordcloud(res)
 
 # Streamlit app
 st.title('Feature extractions from news headlines')
+from agraph import return_value
 st.pyplot(fig)

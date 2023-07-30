@@ -1,5 +1,4 @@
-import json
-import streamlit
+from utils import *
 from streamlit_agraph import agraph, Node, Edge, Config
 
 nodes = []
@@ -8,11 +7,7 @@ category_map = {}
 topic_set = set()
 article_set = set()
 
-processed_data = "processed.json"
-
-# Load dataset
-with open(processed_data, "r") as file:
-    data = json.load(file)
+data = load_data()
 
 for i, article in enumerate(data):
     if article['category'] in category_map: continue
