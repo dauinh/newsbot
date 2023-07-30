@@ -1,12 +1,12 @@
 import json
-from collections import defaultdict
 import streamlit
 from streamlit_agraph import agraph, Node, Edge, Config
 
 nodes = []
 edges = []
-categories = set()
+category_map = {}
 topic_set = set()
+article_set = set()
 
 processed_data = "processed.json"
 
@@ -15,25 +15,29 @@ with open(processed_data, "r") as file:
     data = json.load(file)
 
 for i, article in enumerate(data):
-    # if i > 5: break
-    if article['category'] in categories: continue
-    categories.add(article['category'])
+    if article['category'] in category_map: continue
     category_node = Node(id=article['category'], 
                    label=article['category'], 
                    size=25,
                 )
+    category_map[article['category']] = category_node.id
     nodes.append(category_node)
-    for topic in article['topics']:
-        if topic in topic_set: continue
-        topic_set.add(topic)
-        topic_node = Node(id=topic,
-                        size=15,
-                        )
-        nodes.append(topic_node)
-        new_edge = Edge(source=category_node.id,
-                        target=topic_node.id,
-                   )
-        edges.append(new_edge)
+    
+for i, article in enumerate(data):
+    # if i > 5: break
+    # Add url nodes
+    if article['url'] in article_set: continue
+    article_set.add(article['url'])
+    url_node = Node(id=article['url'],
+                    color='	#7393B3',
+                    size=15,
+                )
+    nodes.append(url_node)
+    category_node_id = category_map[article['category']]
+    edge = Edge(source=category_node_id,
+                target=url_node.id,
+            )
+    edges.append(edge)
 
 config = Config(width=1600,
                 height=1000,
