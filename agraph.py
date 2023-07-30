@@ -4,10 +4,9 @@ from streamlit_agraph import agraph, Node, Edge, Config
 nodes = []
 edges = []
 category_map = {}
-topic_set = set()
 article_set = set()
 
-data = load_data()
+data = load_data("processed.json")
 
 for i, article in enumerate(data):
     if article['category'] in category_map: continue
