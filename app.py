@@ -1,29 +1,11 @@
 import streamlit as st
-
 from utils import *
-from streamlit_agraph import agraph
-from agraph import nodes, edges, config
 
-# Wordcloud
-articles_db = load_data("data/clean.json")
-text = []
-for article in articles_db:
-    text.append(article["category"])
-res = ",".join(text)
-fig = wordcloud(res)
-
-# Category graph
-from rec import history, output
-
-for n in nodes:
-    for read in history:
-        if n.id == read:
-            n.color = "#2b5e4b"
-    for rec in output:
-        if n.id == rec:
-            n.color = "#ACDBC9"
 
 # Streamlit app
 st.title("Feature extractions from news articles")
-agraph(nodes=nodes, edges=edges, config=config)
+
+from category_graph import agraph
+
+fig = wordcloud()
 st.pyplot(fig)

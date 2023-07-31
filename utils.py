@@ -3,9 +3,14 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
 
-def wordcloud(text):
+def wordcloud():
+    articles_db = load_data("data/clean.json")
+    text = []
+    for article in articles_db:
+        text.append(article["category"])
+    res = ",".join(text)
     # Create and generate a word cloud image
-    wordcloud = WordCloud().generate(text)
+    wordcloud = WordCloud().generate(res)
     fig, ax = plt.subplots()
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")

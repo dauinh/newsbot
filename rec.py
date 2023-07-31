@@ -18,15 +18,14 @@ for i, article in enumerate(articles_db):
     url2category[url] = category
 
 user_profile = load_data("data/user.json")
-history = user_profile["readingHistory"]
-history = set(history)
+history = set(user_profile["readingHistory"])
 
 # Process user interested categories
-interested = set()
+interested = []
 for read in history:
     if read in url2category:
         category = url2category[read]
-        interested.add(category)
+        interested.append(category)
 
 # Recommend articles
 rec_list = []
