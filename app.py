@@ -5,9 +5,9 @@ from streamlit_agraph import agraph
 from agraph import nodes, edges, config
 
 # Wordcloud
-articles = load_data("data/test.json")
+articles_db = load_data("data/clean.json")
 text = []
-for article in articles:
+for article in articles_db:
     text.append(article["category"])
 res = ",".join(text)
 fig = wordcloud(res)

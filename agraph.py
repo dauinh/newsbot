@@ -1,12 +1,12 @@
 from utils import *
-from streamlit_agraph import agraph, Node, Edge, Config
+from streamlit_agraph import Node, Edge, Config
 
 nodes = []
 edges = []
 category_map = {}
 article_set = set()
 
-data = load_data("data/test.json")
+data = load_data("data/clean.json")
 
 for i, article in enumerate(data):
     if article["category"] in category_map:
@@ -48,4 +48,3 @@ config = Config(
     highlightColor="#F7A7A6",
 )
 
-# return_value = agraph(nodes=nodes, edges=edges, config=config)
