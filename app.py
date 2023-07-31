@@ -1,19 +1,8 @@
 import streamlit as st
-from wordcloud import WordCloud
-import matplotlib.pyplot as plt
 
 from utils import *
-
-
-text = 'Fun, fun, awesome, awesome, tubular, astounding, superb, great, amazing, amazing, amazing, amazing'
-
-def wordcloud(text):
-    # Create and generate a word cloud image
-    wordcloud = WordCloud().generate(text)
-    fig, ax = plt.subplots()
-    plt.imshow(wordcloud, interpolation='bilinear')
-    plt.axis("off")
-    return fig
+from streamlit_agraph import agraph
+from agraph import nodes, edges, config
 
 
 articles = load_data("process.json")
@@ -25,5 +14,5 @@ fig = wordcloud(res)
 
 # Streamlit app
 st.title('Feature extractions from news headlines')
-from agraph import return_value
+agraph(nodes=nodes, edges=edges, config=config)
 st.pyplot(fig)
