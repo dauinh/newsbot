@@ -5,14 +5,14 @@ from streamlit_agraph import agraph
 from agraph import nodes, edges, config
 
 # Wordcloud
-articles = load_data("process.json")
+articles = load_data("data/test.json")
 text = []
 for article in articles:
-    text.append(article['category'])
-res = ','.join(text)
+    text.append(article["category"])
+res = ",".join(text)
 fig = wordcloud(res)
 
-# Knowledge graph
+# Category graph
 from rec import history, output
 
 for n in nodes:
@@ -24,6 +24,6 @@ for n in nodes:
             n.color = "#ACDBC9"
 
 # Streamlit app
-st.title('Feature extractions from news headlines')
+st.title("Feature extractions from news articles")
 agraph(nodes=nodes, edges=edges, config=config)
 st.pyplot(fig)

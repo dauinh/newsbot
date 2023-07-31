@@ -2,22 +2,22 @@ import collections
 from utils import *
 
 
-articles_db = load_data("processed.json")
+articles_db = load_data("data/test.json")
 category_map = collections.defaultdict(set)
 url2category = {}
 
 # Organize urls into categories
 for article in articles_db:
-    cur = article['category']
-    category_map[cur].add(article['url'])
+    cur = article["category"]
+    category_map[cur].add(article["url"])
 
 for i, article in enumerate(articles_db):
-    category = article['category']
-    url = article['url']
+    category = article["category"]
+    url = article["url"]
     url2category[url] = category
 
 user_profile = load_data("user.json")
-history = user_profile['readingHistory']
+history = user_profile["readingHistory"]
 history = set(history)
 
 # Process user interested categories
