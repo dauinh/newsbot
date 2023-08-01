@@ -1,5 +1,6 @@
 from utils import *
 import collections
+import streamlit as st
 from streamlit_agraph import Node, Edge, Config, agraph
 
 
@@ -103,5 +104,10 @@ config = Config(
     nodeHighlightBehavior=True,
     highlightColor="#F7A7A6",
 )
+
+
+st.header("Tag graph")
+st.text("Large nodes are news tags \
+        \nSmall dark blue nodes are news articles")
 
 agraph(nodes=nodes, edges=edges, config=config)
