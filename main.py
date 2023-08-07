@@ -18,10 +18,10 @@ def load_faiss_index():
 
 
 db = load_faiss_index()
-st.title("Vector embeddings")
+st.title("News Recommendation System")
 st.text("Search similiar articles according to preferences")
 keywords = st_tags(
-    label='# Enter Keywords:',
+    label='## Enter Preferences:',
     text='Press enter to add more',
     value=['business', 'network'],
     suggestions=[],
@@ -38,4 +38,4 @@ if keywords:
         st.caption(f"[{doc.metadata['title']}]({doc.metadata['url']})")
 
 else:
-    st.text("Please enter keywords to search for recommended articles")
+    st.text("Please enter keywords to get recommended articles")
