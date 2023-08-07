@@ -18,7 +18,8 @@ def get_k_articles(data, k):
     history = []
     for i in indices:
         history.append(data[i])
-
+    return history
+    
 
 @st.cache_data()
 def get_user_history(num_articles):
@@ -27,8 +28,8 @@ def get_user_history(num_articles):
     history = get_k_articles(input, num_articles)
     res = []
     for art in history:
-        res.append(art['summary'])
-    return '; '.join(res)
+        res.append(art)
+    return res
 
 
 @st.cache_data()
@@ -39,7 +40,7 @@ def load_faiss_index():
 
 
 def from_keywords(db):
-    st.text("Search similiar articles according to preferences")
+    st.text("Search similiar articles according to keywords")
     keywords = st_tags(
         label='## Enter Preferences:',
         text='Press enter to add more',
@@ -66,13 +67,39 @@ def from_keywords(db):
         st.text("Please enter keywords to get recommended articles")
 
 
+def from_summary(db):
+    st.text("Search similiar articles according to user read history")
+    history = get_user_history(5)
+    st.header("User history")
+    all_summaries = []
+    all_urls = set()
+    for art in history:
+        st.caption(f"[{art['title']}]({art['url']})")
+        st.caption(art['summary'])
+        all_summaries.append(art['summary'])
+        all_urls.add(art['url'])
+
+    parsed_history = '; '.join(all_summaries)
+    res = db.similarity_search_with_score(
+        query=parsed_history,
+        k=10,
+    )
+
+    st.header("Recommended articles")
+    for art in res:
+        doc, score = art
+        if doc.metadata['url'] in all_urls: continue
+        st.caption(f"[{doc.metadata['title']}]({doc.metadata['url']})")
+        st.caption(f"Similarity score: {str(round(score, 3))}")
+        st.caption(doc.page_content)
+
+
 def main():
     db = load_faiss_index()
-    # history = get_user_history(5)
 
     st.title("News Recommendation System")
-    from_keywords(db)
-
+    # from_keywords(db)
+    from_summary(db)
 
 if __name__ == "__main__":
     main()
