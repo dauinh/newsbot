@@ -89,7 +89,7 @@ config = Config(
 )
 
 
-st.header("Category graph")
+st.title("Category graph")
 st.text("Large nodes are news categories \
         \nSmall dark blue nodes are news articles \
         \nDark green nodes are articles that user has read \

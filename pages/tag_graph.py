@@ -106,7 +106,7 @@ config = Config(
 )
 
 
-st.header("Tag graph")
+st.title("Tag graph")
 st.text("Large nodes are news tags \
         \nSmall dark blue nodes are news articles")
 
