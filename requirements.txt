@@ -5,3 +5,7 @@ wordcloud
 matplotlib
 langchain
 openai
+streamlit-agraph
+faiss-cpu
+streamlit-tags
+tiktoken
