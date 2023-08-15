@@ -35,7 +35,6 @@ model = ChatOpenAI(
 )
 
 llm_chain = LLMChain(llm=model, prompt=prompt)
-output_parser = PydanticOutputParser(pydantic_object=dict)
 
 raw_data = "data/raw.json"
 processed_data = "data/clean.json"
@@ -46,7 +45,8 @@ with open(raw_data, "r") as file:
 
 # Extract using LLM
 for i, article in enumerate(input):
-    if i == 0: continue
+    # if i == 0: continue # start after 1st article
+    # if i >= 10: break   # stop after 10th articles
     try:
         content = article['body']
         res = llm_chain.run(article=content, categories=CATEGORIES)
